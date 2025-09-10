@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# System files
+.DS_Store
+*.log
+
+# Environment variables
+.env
+
+# Uploads directory
+uploads/
+
+# Build files
+*.tmp

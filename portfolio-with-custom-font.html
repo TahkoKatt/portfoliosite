@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gage Alexander Bearson - Portfolio</title>
+    <style>
+        /* Custom Font Declaration */
+        @font-face {
+            font-family: 'Outahere';
+            src: url('fonts/Outahere Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #dc2626;
+            --red-dark: #b91c1c;
+            --red-light: #ef4444;
+            --black: #000000;
+            --grey: #1a1a1a;
+            --white: #ffffff;
+        }
+
+        body {
+            background: var(--red);
+            color: var(--black);
+            font-family: 'Outahere', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navegación */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 25px 50px;
+            z-index: 1000;
+            background: var(--red);
+            border-bottom: 2px solid var(--black);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--black);
+            text-decoration: none;
+            letter-spacing: -1px;
+            font-family: 'Outahere', sans-serif;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 50px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--black);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-family: 'Outahere', sans-serif;
+        }
+
+        .nav-link:hover {
+            color: var(--white);
+        }
+
+        .nav-link.active {
+            color: var(--white);
+            text-shadow: 1px 1px 0 var(--black);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--red);
+        }
+
+        .hero-content {
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 7rem;
+            font-weight: 800;
+            line-height: 0.9;
+            margin-bottom: 30px;
+            color: var(--black);
+            text-transform: uppercase;
+            font-family: 'Outahere', sans-serif;
+        }
+
+        .hero-title span {
+            color: var(--white);
+            text-shadow: 3px 3px 0 var(--black);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--black);
+            font-weight: 500;
+            letter-spacing: 3px;
+            font-family: 'Outahere', sans-serif;
+        }
+
+        /* Grid de Obras */
+        .works-section {
+            padding: 80px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--red);
+        }
+
+        .section-title {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 60px;
+            text-align: center;
+            text-transform: uppercase;
+            font-family: 'Outahere', sans-serif;
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .work-item {
+            position: relative;
+            background: var(--black);
+            aspect-ratio: 1;
+            overflow: hidden;
+            cursor: pointer;
+            border: 3px solid var(--black);
+        }
+
+        .work-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .work-item:hover .work-image {
+            opacity: 0.7;
+            transform: scale(1.05);
+        }
+
+        .work-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: var(--black);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .work-item:hover .work-overlay {
+            transform: translateY(0);
+        }
+
+        .work-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 5px;
+            font-family: 'Outahere', sans-serif;
+        }
+
+        .work-medium {
+            color: var(--red);
+            font-size: 0.9rem;
+            font-weight: 400;
+            font-family: 'Outahere', sans-serif;
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 80px 50px;
+            background: var(--black);
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            aspect-ratio: 4/5;
+            border: 3px solid var(--red);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.2);
+        }
+
+        .about-content {
+            padding: 20px 0;
+        }
+
+        .about-title {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--red);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            font-family: 'Outahere', sans-serif;
+        }
+
+        .about-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            font-weight: 400;
+            margin-bottom: 25px;
+            color: var(--white);
+            font-family: 'Outahere', sans-serif;
+        }
+
+        .about-text strong {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 80px 50px;
+            background: var(--red);
+            text-align: center;
+            border-top: 3px solid var(--black);
+        }
+
+        .contact-title {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            font-family: 'Outahere', sans-serif;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 40px;
+        }
+
+        .contact-link {
+            color: var(--black);
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: 3px solid var(--black);
+            transition: all 0.3s ease;
+            font-family: 'Outahere', sans-serif;
+        }
+
+        .contact-link:hover {
+            background: var(--black);
+            color: var(--red);
+            border: 3px solid var(--red);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 30px 50px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--black);
+            background: var(--red);
+            font-weight: 500;
+            border-top: 2px solid var(--black);
+            font-family: 'Outahere', sans-serif;
+        }
+
+        /* Menú Hamburguesa para Móvil */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background: var(--black);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .works-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                padding: 20px 30px;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background: var(--red);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.3s ease;
+                border-left: 3px solid var(--black);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+                z-index: 1001;
+            }
+
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
+            .hero-title {
+                font-size: 4rem;
+            }
+
+            .section-title,
+            .about-title,
+            .contact-title {
+                font-size: 2.5rem;
+            }
+
+            .works-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+
+            .contact-link {
+                width: 200px;
+            }
+
+            .works-section,
+            .about-section,
+            .contact-section {
+                padding: 60px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="#home" class="logo">Gage Alexander Bearson</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">Inicio</a></li>
+                <li><a href="#works" class="nav-link">Obras</a></li>
+                <li><a href="#about" class="nav-link">Sobre Mí</a></li>
+                <li><a href="#contact" class="nav-link">Contacto</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                ARTISTA<br>
+                <span>VISUAL</span>
+            </h1>
+        </div>
+    </section>
+
+    <!-- Obras Section -->
+    <section class="works-section" id="works">
+        <h2 class="section-title">Works</h2>
+        
+        <div class="works-grid">
+            <!-- Obra 1 -->
+            <div class="work-item">
+                <img src="./images/newport_flight_boats.jpg" alt="Un movimiento popular" class="work-image">
+                     alt="Un movimiento popular" class="work-image">
+                <div class="work-overlay">
+                    <h3 class="work-title">Un movimiento popular</h3>
+                    <p class="work-medium">Digital</p>
+                </div>
+            </div>
+
+            <!-- Obra 2 -->
+            <div class="work-item">
+                <img src="./images/ibiza.jpg" alt="Un movimiento popular" class="work-image">
+                     alt="Obra 2" class="work-image">
+                <div class="work-overlay">
+                    <h3 class="work-title">Título de Obra</h3>
+                    <p class="work-medium">Instalación</p>
+                </div>
+            </div>
+
+            <!-- Obra 3 -->
+            <div class="work-item">
+                <img src="https://via.placeholder.com/500x500/ffffff/dc2626?text=OBRA+3" 
+                     alt="Obra 3" class="work-image">
+                <div class="work-overlay">
+                    <h3 class="work-title">Título de Obra</h3>
+                    <p class="work-medium">Arte Digital</p>
+                </div>
+            </div>
+
+            <!-- Obra 4 -->
+            <div class="work-item">
+                <img src="https://via.placeholder.com/500x500/1a1a1a/ffffff?text=OBRA+4" 
+                     alt="Obra 4" class="work-image">
+                <div class="work-overlay">
+                    <h3 class="work-title">Título de Obra</h3>
+                    <p class="work-medium">Escultura</p>
+                </div>
+            </div>
+
+            <!-- Obra 5 -->
+            <div class="work-item">
+                <img src="https://via.placeholder.com/500x500/ffffff/000000?text=OBRA+5" 
+                     alt="Obra 5" class="work-image">
+                <div class="work-overlay">
+                    <h3 class="work-title">Título de Obra</h3>
+                    <p class="work-medium">Fotografía</p>
+                </div>
+            </div>
+
+            <!-- Obra 6 -->
+            <div class="work-item">
+                <img src="https://via.placeholder.com/500x500/dc2626/ffffff?text=OBRA+6" 
+                     alt="Obra 6" class="work-image">
+                <div class="work-overlay">
+                    <h3 class="work-title">Título de Obra</h3>
+                    <p class="work-medium">Mixed Media</p>
+                </div>
+            </div>
+
+            <!-- Obra 7 -->
+            <div class="work-item">
+                <img src="https://via.placeholder.com/500x500/000000/dc2626?text=OBRA+7" 
+                     alt="Obra 7" class="work-image">
+                <div class="work-overlay">
+                    <h3 class="work-title">Título de Obra</h3>
+                    <p class="work-medium">Video Arte</p>
+                </div>
+            </div>
+
+            <!-- Obra 8 -->
+            <div class="work-item">
+                <img src="https://via.placeholder.com/500x500/ffffff/000000?text=OBRA+8" 
+                     alt="Obra 8" class="work-image">
+                <div class="work-overlay">
+                    <h3 class="work-title">Título de Obra</h3>
+                    <p class="work-medium">Pintura</p>
+                </div>
+            </div>
+
+            <!-- Obra 9 -->
+            <div class="work-item">
+                <img src="https://via.placeholder.com/500x500/1a1a1a/dc2626?text=OBRA+9" 
+                     alt="Obra 9" class="work-image">
+                <div class="work-overlay">
+                    <h3 class="work-title">Título de Obra</h3>
+                    <p class="work-medium">Instalación</p>
+                </div>
+            </div>
+
+            <!-- Obra 10 -->
+            <div class="work-item">
+                <img src="https://via.placeholder.com/500x500/dc2626/000000?text=OBRA+10" 
+                     alt="Obra 10" class="work-image">
+                <div class="work-overlay">
+                    <h3 class="work-title">Título de Obra</h3>
+                    <p class="work-medium">Grabado</p>
+                </div>
+            </div>
+
+            <!-- Obra 11 -->
+            <div class="work-item">
+                <img src="https://via.placeholder.com/500x500/ffffff/dc2626?text=OBRA+11" 
+                     alt="Obra 11" class="work-image">
+                <div class="work-overlay">
+                    <h3 class="work-title">Título de Obra</h3>
+                    <p class="work-medium">Collage</p>
+                </div>
+            </div>
+
+            <!-- Obra 12 -->
+            <div class="work-item">
+                <img src="https://via.placeholder.com/500x500/000000/ffffff?text=OBRA+12" 
+                     alt="Obra 12" class="work-image">
+                <div class="work-overlay">
+                    <h3 class="work-title">Título de Obra</h3>
+                    <p class="work-medium">Performance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <div class="about-image">
+                <img src="Images/profile.jpg" 
+                     alt="Artista">
+            </div>
+            <div class="about-content">
+                <h2 class="about-title">About Me</h2>
+                <p class="about-text">
+                    Soy un artista visual explorando las <strong>fronteras</strong> entre lo tangible y lo conceptual. 
+                    Mi trabajo nace de la observación profunda del mundo que nos rodea y la búsqueda 
+                    constante de nuevas formas de expresión.
+                </p>
+                <p class="about-text">
+                    Cada obra es una investigación, un diálogo entre materiales, ideas y emociones. 
+                    Mi práctica artística abraza múltiples medios, desde la pintura tradicional hasta 
+                    las instalaciones contemporáneas.
+                </p>
+                <p class="about-text">
+                    El arte es mi lenguaje para comunicar lo invisible, para hacer tangible lo intangible.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <h2 class="contact-title">CONTACTO</h2>
+        <div class="contact-links">
+            <a href="mailto:tu@email.com" class="contact-link">EMAIL</a>
+            <a href="https://instagram.com/tuusuario" class="contact-link" target="_blank">INSTAGRAM</a>
+            <a href="tel:+1234567890" class="contact-link">TELÉFONO</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Gage Alexander Bearson· Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        // Menú móvil
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Navegación suave
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+                
+                // Cerrar menú móvil
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+                
+                // Actualizar link activo
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

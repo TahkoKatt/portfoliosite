@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECT_TITLE - Gage Alexander Bearson</title>
+    <style>
+        /* Custom Font Declaration */
+        @font-face {
+            font-family: 'Outahere';
+            src: url('fonts/Outahere Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Aifont';
+            src: url('fonts/Aifont-v2-Trial-419.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FB6C1E;
+            --primary-dark: #E55A0D;
+            --primary-light: #FC8344;
+            --accent: #1E90FB;
+            --accent-warm: #FFE8D6;
+            --black: #000000;
+            --grey-dark: #1A1A1A;
+            --grey-mid: #A3A3A3;
+            --grey-light: #F5F5F5;
+            --white: #FFFFFF;
+        }
+
+        body {
+            background: var(--white);
+            color: var(--black);
+            font-family: 'Outahere', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+            line-height: 1.6;
+            cursor: url('cursor.png') 16 16, auto;
+        }
+
+        /* Custom Cursor Styles */
+        a, button, .gallery-item, .back-link, .logo, .modal-nav-btn, .modal-close {
+            cursor: url('cursor.png') 16 16, pointer;
+        }
+
+        /* Navigation */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 25px 50px;
+            z-index: 1000;
+            background: var(--white);
+            border-bottom: 2px solid var(--grey-light);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--black);
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid var(--black);
+            transition: all 0.3s ease;
+            font-family: 'Outahere', sans-serif;
+        }
+
+        .back-link:hover {
+            background: var(--black);
+            color: var(--primary);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--black);
+            text-decoration: none;
+            letter-spacing: -1px;
+            font-family: 'Aifont', 'Outahere', sans-serif;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-image: url('logo.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* Project Content */
+        .project-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 50px 80px;
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .project-title {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-family: 'Outahere', sans-serif;
+        }
+
+        .project-medium {
+            font-size: 1.5rem;
+            color: var(--black);
+            margin-bottom: 30px;
+            font-weight: 500;
+            font-family: 'Outahere', sans-serif;
+        }
+
+        .project-description {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--black);
+            color: var(--white);
+            padding: 40px;
+            border: 3px solid var(--grey-light);
+            font-family: 'Outahere', sans-serif;
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .gallery-item {
+            position: relative;
+            background: var(--black);
+            overflow: hidden;
+            cursor: pointer;
+            border: 3px solid var(--grey-light);
+            aspect-ratio: 1;
+        }
+
+        .gallery-image, .gallery-video, .gallery-pdf {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-image,
+        .gallery-item:hover .gallery-video,
+        .gallery-item:hover .gallery-pdf {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--white);
+            padding: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .video-overlay::after {
+            content: '▶';
+            font-size: 1.5rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            overflow: hidden;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-image, .modal-video, .modal-pdf {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border: 3px solid var(--primary);
+        }
+
+        .modal-video, .modal-pdf {
+            background: var(--black);
+        }
+
+        .modal-pdf {
+            width: 90vw;
+            height: 80vh;
+        }
+
+        .modal-navigation {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .modal-nav-btn {
+            background: var(--black);
+            color: var(--primary);
+            border: 3px solid var(--primary);
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-family: 'Outahere', sans-serif;
+            font-weight: 600;
+        }
+
+        .modal-nav-btn:hover {
+            background: var(--white);
+            color: var(--black);
+            border: 3px solid var(--grey-light);
+        }
+
+        .modal-nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .modal-counter {
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: var(--black);
+            padding: 10px 20px;
+            border: 3px solid var(--primary);
+            font-family: 'Outahere', sans-serif;
+        }
+
+        .modal-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 2.5rem;
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 2001;
+            background: var(--black);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--primary);
+        }
+
+        .modal-close:hover {
+            background: var(--white);
+            color: var(--black);
+            border: 3px solid var(--grey-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-nav {
+                padding: 20px 30px;
+            }
+
+            .project-container {
+                padding: 100px 30px 60px;
+            }
+
+            .project-title {
+                font-size: 2.5rem;
+            }
+
+            .image-gallery {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .modal-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="back-link">← Back to Portfolio</a>
+            <a href="index.html" class="logo">
+                <div class="logo-icon"></div>
+                Gage Alexander Bearson
+            </a>
+        </div>
+    </nav>
+
+    <!-- Project Content -->
+    <div class="project-container">
+        <div class="project-header">
+            <h1 class="project-title" id="projectTitle">PROJECT_TITLE</h1>
+            <p class="project-medium" id="projectMedium">PROJECT_MEDIUM</p>
+            <div class="project-description" id="projectDescription">
+                PROJECT_DESCRIPTION
+            </div>
+        </div>
+
+        <!-- Image Gallery -->
+        <div class="image-gallery" id="imageGallery">
+            <!-- Images will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Fullscreen Modal -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div id="modalMediaContainer">
+                <img class="modal-image" id="modalImage" alt="" style="display: none;">
+                <video class="modal-video" id="modalVideo" controls style="display: none;"></video>
+                <iframe class="modal-pdf" id="modalPdf" style="display: none;" frameborder="0"></iframe>
+            </div>
+            <div class="modal-navigation">
+                <button class="modal-nav-btn" id="prevBtn">← Previous</button>
+                <div class="modal-counter">
+                    <span id="currentImage">1</span> / <span id="totalImages">1</span>
+                </div>
+                <button class="modal-nav-btn" id="nextBtn">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Project data structure
+        const projects = {
+          "newport-flight-boats": {
+                    "title": "Newport Flight Boats",
+                    "medium": "Photography",
+                    "description": "A series capturing the serene beauty of boats in Newport harbor, exploring the relationship between human-made vessels and natural water environments.",
+                    "images": [
+                              "images/newport_flight_boats.jpg"
+                    ],
+                    "videos": [],
+                    "pdfs": [],
+                    "order": 2
+          },
+          "ellington-bridge": {
+                    "title": "Ellington Bridge",
+                    "medium": "Photography",
+                    "description": "An architectural study of the Ellington Bridge, examining how urban infrastructure creates both connection and division in the cityscape.",
+                    "images": [
+                              "images/ellington_bridge.jpg"
+                    ],
+                    "videos": [],
+                    "pdfs": [],
+                    "order": 4
+          },
+          "ibiza": {
+                    "title": "Ibiza",
+                    "medium": "Photography",
+                    "description": "Mediterranean landscapes that capture the essence of Ibiza beyond its commercial reputation, focusing on natural beauty and quiet moments.",
+                    "images": [
+                              "images/ibiza.jpg"
+                    ],
+                    "videos": [
+                              "/uploads/videos/1757474259379-249620748.mp4"
+                    ],
+                    "pdfs": [
+                              "/uploads/pdfs/1757479666397-611066165.pdf"
+                    ],
+                    "order": 1
+          },
+          "formentera-net": {
+                    "title": "Formentera Net",
+                    "medium": "Photography",
+                    "description": "A close study of fishing nets in Formentera, exploring textures, patterns, and the tools of traditional maritime life.",
+                    "images": [
+                              "images/formentera_net.jpg"
+                    ],
+                    "videos": [],
+                    "pdfs": [],
+                    "order": 5
+          },
+          "la-romana": {
+                    "title": "La Romana",
+                    "medium": "Photography",
+                    "description": "Dominican Republic street scenes and architectural details that reveal the character of La Romana through everyday moments.",
+                    "images": [
+                              "images/la_romana_1.jpg",
+                              "images/la_romana_1-1.jpg"
+                    ],
+                    "videos": [],
+                    "pdfs": [],
+                    "order": 3
+          },
+          "mar-del-plata": {
+                    "title": "Mar del Plata",
+                    "medium": "Photography",
+                    "description": "A triptych documenting the coastal city of Mar del Plata, from its beaches to its urban architecture and local culture.",
+                    "images": [
+                              "images/mar_del_plata_1.jpg",
+                              "images/mar_del_plata_2.jpg",
+                              "images/mar_del_plata_3.jpg"
+                    ],
+                    "videos": [],
+                    "pdfs": [],
+                    "order": 6
+          },
+          "ny-laundromat": {
+                    "title": "NY Laundromat",
+                    "medium": "Photography",
+                    "description": "An intimate look at New York City laundromats as community spaces, exploring the intersection of necessity and social connection.",
+                    "images": [
+                              "images/ny_laundromat.jpg"
+                    ],
+                    "videos": [],
+                    "pdfs": [],
+                    "order": 7
+          },
+          "palermo-soho": {
+                    "title": "Palermo Soho",
+                    "medium": "Photography",
+                    "description": "Street photography from Buenos Aires' trendy Palermo Soho neighborhood, capturing its artistic energy and urban character.",
+                    "images": [
+                              "images/palermo_soho_1.jpg",
+                              "images/palermo_nuevo_depa.jpg"
+                    ],
+                    "videos": [],
+                    "pdfs": [],
+                    "order": 8
+          },
+          "recoleta-cat": {
+                    "title": "Recoleta Cat",
+                    "medium": "Photography",
+                    "description": "A portrait of urban wildlife in Buenos Aires' historic Recoleta district, where cats navigate between past and present.",
+                    "images": [
+                              "images/recoleta_cat.jpg"
+                    ],
+                    "videos": [],
+                    "pdfs": [],
+                    "order": 9
+          },
+          "sarasota-tree": {
+                    "title": "Sarasota Tree",
+                    "medium": "Photography",
+                    "description": "A study of a single tree in Sarasota, Florida, examining how nature persists and adapts within developed landscapes.",
+                    "images": [
+                              "images/sarasota_tree.jpg"
+                    ],
+                    "videos": [],
+                    "pdfs": [],
+                    "order": 10
+          },
+          "piriapolis-dinner": {
+                    "title": "Piriapolis Dinner",
+                    "medium": "Photography",
+                    "description": "A dining scene from Uruguay's coastal town of Piriápolis, exploring food culture and social gathering spaces.",
+                    "images": [
+                              "images/piriapolis_uy_dinner.jpg"
+                    ],
+                    "videos": [],
+                    "pdfs": [],
+                    "order": 11
+          },
+          "almagro-casa-cultural": {
+                    "title": "Almagro Casa Cultural",
+                    "medium": "Photography",
+                    "description": "Documentation of cultural spaces in Buenos Aires' Almagro neighborhood, where community and art intersect.",
+                    "images": [
+                              "images/almagro_casa_cultural_lu.jpg"
+                    ],
+                    "videos": [],
+                    "pdfs": [],
+                    "order": 12
+          }
+};
+
+        // Get project ID from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('project');
+
+        if (projectId && projects[projectId]) {
+            const project = projects[projectId];
+            
+            // Update page content
+            document.getElementById('projectTitle').textContent = project.title;
+            document.getElementById('projectMedium').textContent = project.medium;
+            document.getElementById('projectDescription').textContent = project.description;
+            document.title = `${project.title} - Gage Alexander Bearson`;
+
+            // Populate gallery with images and videos
+            const gallery = document.getElementById('imageGallery');
+            const allMedia = [
+                ...(project.images || []).map(src => ({ src, type: 'image' })),
+                ...(project.videos || []).map(src => ({ src, type: 'video' })),
+                ...(project.pdfs || []).map(src => ({ src, type: 'pdf' }))
+            ];
+            
+            allMedia.forEach((media, index) => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                
+                if (media.type === 'image') {
+                    galleryItem.innerHTML = `<img src="${media.src}" alt="${project.title} ${index + 1}" class="gallery-image">`;
+                } else if (media.type === 'video') {
+                    galleryItem.innerHTML = `
+                        <video src="${media.src}" class="gallery-video" muted></video>
+                        <div class="video-overlay"></div>
+                    `;
+                } else if (media.type === 'pdf') {
+                    galleryItem.innerHTML = `
+                        <div class="gallery-pdf" style="background: var(--grey-light); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--primary);">📄</div>
+                    `;
+                }
+                
+                galleryItem.addEventListener('click', () => openModal(index));
+                gallery.appendChild(galleryItem);
+            });
+
+            // Modal functionality
+            let currentImageIndex = 0;
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalVideo = document.getElementById('modalVideo');
+            const modalClose = document.querySelector('.modal-close');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const currentImageSpan = document.getElementById('currentImage');
+            const totalImagesSpan = document.getElementById('totalImages');
+
+            totalImagesSpan.textContent = allMedia.length;
+
+            function openModal(imageIndex) {
+                currentImageIndex = imageIndex;
+                updateModalMedia();
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function updateModalMedia() {
+                const currentMedia = allMedia[currentImageIndex];
+                
+                // Hide all media elements first
+                const modalPdf = document.getElementById('modalPdf');
+                modalImage.style.display = 'none';
+                modalVideo.style.display = 'none';
+                modalPdf.style.display = 'none';
+                
+                if (currentMedia.type === 'image') {
+                    modalImage.src = currentMedia.src;
+                    modalImage.alt = `${project.title} ${currentImageIndex + 1}`;
+                    modalImage.style.display = 'block';
+                } else if (currentMedia.type === 'video') {
+                    modalVideo.src = currentMedia.src;
+                    modalVideo.style.display = 'block';
+                    modalVideo.load(); // Reload video element
+                } else if (currentMedia.type === 'pdf') {
+                    modalPdf.src = currentMedia.src;
+                    modalPdf.style.display = 'block';
+                }
+                
+                currentImageSpan.textContent = currentImageIndex + 1;
+                
+                prevBtn.disabled = currentImageIndex === 0;
+                nextBtn.disabled = currentImageIndex === allMedia.length - 1;
+            }
+
+            function closeModal() {
+                modal.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+
+            function nextImage() {
+                if (currentImageIndex < allMedia.length - 1) {
+                    currentImageIndex++;
+                    updateModalMedia();
+                }
+            }
+
+            function prevImage() {
+                if (currentImageIndex > 0) {
+                    currentImageIndex--;
+                    updateModalMedia();
+                }
+            }
+
+            // Event listeners
+            modalClose.addEventListener('click', closeModal);
+            nextBtn.addEventListener('click', nextImage);
+            prevBtn.addEventListener('click', prevImage);
+
+            // Close modal when clicking outside image
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (modal.classList.contains('show')) {
+                    switch(e.key) {
+                        case 'Escape':
+                            closeModal();
+                            break;
+                        case 'ArrowLeft':
+                            prevImage();
+                            break;
+                        case 'ArrowRight':
+                            nextImage();
+                            break;
+                    }
+                }
+            });
+
+        } else {
+            // Project not found, redirect to home
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

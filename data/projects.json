@@ -1,0 +1,142 @@
+{
+  "newport-flight-boats": {
+    "title": "Newport Flight Boats",
+    "medium": "Photography",
+    "description": "A series capturing the serene beauty of boats in Newport harbor, exploring the relationship between human-made vessels and natural water environments.",
+    "images": [
+      "images/newport_flight_boats.jpg"
+    ],
+    "videos": [],
+    "pdfs": [],
+    "order": 2
+  },
+  "ellington-bridge": {
+    "title": "Ellington Bridge",
+    "medium": "Photography",
+    "description": "An architectural study of the Ellington Bridge, examining how urban infrastructure creates both connection and division in the cityscape.",
+    "images": [
+      "images/ellington_bridge.jpg"
+    ],
+    "videos": [],
+    "pdfs": [],
+    "order": 4
+  },
+  "ibiza": {
+    "title": "Ibiza",
+    "medium": "Photography",
+    "description": "Mediterranean landscapes that capture the essence of Ibiza beyond its commercial reputation, focusing on natural beauty and quiet moments.",
+    "images": [
+      "images/ibiza.jpg"
+    ],
+    "videos": [
+      "/uploads/videos/1757474259379-249620748.mp4"
+    ],
+    "pdfs": [
+      "/uploads/pdfs/1757479666397-611066165.pdf"
+    ],
+    "order": 1
+  },
+  "formentera-net": {
+    "title": "Formentera Net",
+    "medium": "Photography",
+    "description": "A close study of fishing nets in Formentera, exploring textures, patterns, and the tools of traditional maritime life.",
+    "images": [
+      "images/formentera_net.jpg"
+    ],
+    "videos": [],
+    "pdfs": [],
+    "order": 5
+  },
+  "la-romana": {
+    "title": "La Romana",
+    "medium": "Photography",
+    "description": "Dominican Republic street scenes and architectural details that reveal the character of La Romana through everyday moments.",
+    "images": [
+      "images/la_romana_1.jpg",
+      "images/la_romana_1-1.jpg"
+    ],
+    "videos": [],
+    "pdfs": [],
+    "order": 3
+  },
+  "mar-del-plata": {
+    "title": "Mar del Plata",
+    "medium": "Photography",
+    "description": "A triptych documenting the coastal city of Mar del Plata, from its beaches to its urban architecture and local culture.",
+    "images": [
+      "images/mar_del_plata_1.jpg",
+      "images/mar_del_plata_2.jpg",
+      "images/mar_del_plata_3.jpg"
+    ],
+    "videos": [],
+    "pdfs": [],
+    "order": 6
+  },
+  "ny-laundromat": {
+    "title": "NY Laundromat",
+    "medium": "Photography",
+    "description": "An intimate look at New York City laundromats as community spaces, exploring the intersection of necessity and social connection.",
+    "images": [
+      "images/ny_laundromat.jpg"
+    ],
+    "videos": [],
+    "pdfs": [],
+    "order": 7
+  },
+  "palermo-soho": {
+    "title": "Palermo Soho",
+    "medium": "Photography",
+    "description": "Street photography from Buenos Aires' trendy Palermo Soho neighborhood, capturing its artistic energy and urban character.",
+    "images": [
+      "images/palermo_soho_1.jpg",
+      "images/palermo_nuevo_depa.jpg"
+    ],
+    "videos": [],
+    "pdfs": [],
+    "order": 8
+  },
+  "recoleta-cat": {
+    "title": "Recoleta Cat",
+    "medium": "Photography",
+    "description": "A portrait of urban wildlife in Buenos Aires' historic Recoleta district, where cats navigate between past and present.",
+    "images": [
+      "images/recoleta_cat.jpg"
+    ],
+    "videos": [],
+    "pdfs": [],
+    "order": 9
+  },
+  "sarasota-tree": {
+    "title": "Sarasota Tree",
+    "medium": "Photography",
+    "description": "A study of a single tree in Sarasota, Florida, examining how nature persists and adapts within developed landscapes.",
+    "images": [
+      "images/sarasota_tree.jpg"
+    ],
+    "videos": [],
+    "pdfs": [],
+    "order": 10
+  },
+  "piriapolis-dinner": {
+    "title": "Piriapolis Dinner",
+    "medium": "Photography",
+    "description": "A dining scene from Uruguay's coastal town of Piriápolis, exploring food culture and social gathering spaces.",
+    "images": [
+      "images/piriapolis_uy_dinner.jpg"
+    ],
+    "videos": [],
+    "pdfs": [],
+    "order": 11
+  },
+  "almagro-casa-cultural": {
+    "title": "Almagro Casa Cultural",
+    "medium": "Photography",
+    "description": "Documentation of cultural spaces in Buenos Aires' Almagro neighborhood, where community and art intersect.",
+    "images": [
+      "images/almagro_casa_cultural_lu.jpg"
+    ],
+    "videos": [],
+    "pdfs": [],
+    "order": 12
+  }
+}
