@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Gage Alexander Bearson</title>
+    <style>
+        /* Import Public Sans */
+        @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #FB6C1E;
+            --primary-dark: #E55A0D;
+            --primary-light: #FC8344;
+            --accent: #1E90FB;
+            --accent-warm: #FFE8D6;
+            --black: #000000;
+            --grey-dark: #1A1A1A;
+            --grey-mid: #A3A3A3;
+            --grey-light: #F5F5F5;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Public Sans', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+            line-height: 1.6;
+            cursor: url('cursor.png') 16 16, auto;
+        }
+
+        /* Custom Cursor Styles */
+        a, button, .nav-link {
+            cursor: url('cursor.png') 16 16, pointer;
+        }
+
+        /* Navigation - positioned on top right */
+        .main-nav {
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            z-index: 1000;
+            background: transparent;
+        }
+
+        .nav-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 20px;
+        }
+
+        .artist-name {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Public Sans', sans-serif;
+            margin-bottom: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            list-style: none;
+            text-align: right;
+        }
+
+        .nav-link {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: opacity 0.3s ease;
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        /* About Container - Full Screen Layout */
+        .about-container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            align-items: center;
+        }
+
+        /* Large Portrait Image */
+        .about-image {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: grayscale(20%) contrast(1.1);
+        }
+
+        /* Content positioned to the right */
+        .about-content {
+            padding: 80px 50px 80px 60px;
+            background: var(--black);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .about-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            font-weight: 400;
+            margin-bottom: 25px;
+            color: var(--white);
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .about-text strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Bottom navigation for additional links */
+        .bottom-nav {
+            position: fixed;
+            bottom: 40px;
+            left: 50px;
+            z-index: 1000;
+        }
+
+        .bottom-nav a {
+            display: block;
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            transition: opacity 0.3s ease;
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .bottom-nav a:hover {
+            opacity: 0.7;
+            color: var(--primary);
+        }
+
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--white);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .about-container {
+                grid-template-columns: 1fr 350px;
+            }
+            
+            .about-content {
+                padding: 60px 40px 60px 50px;
+            }
+            
+            .about-title {
+                font-size: 2rem;
+            }
+            
+            .about-text {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: left 0.3s ease;
+                padding: 0;
+            }
+
+            .main-nav.active {
+                left: 0;
+            }
+
+            .nav-container {
+                align-items: center;
+                gap: 30px;
+            }
+
+            .nav-menu {
+                align-items: center;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .about-image {
+                height: 60vh;
+                order: 1;
+            }
+
+            .about-content {
+                height: auto;
+                padding: 60px 30px;
+                order: 2;
+            }
+
+            .about-title {
+                font-size: 1.8rem;
+                margin-bottom: 30px;
+            }
+
+            .about-text {
+                font-size: 1rem;
+                line-height: 1.7;
+            }
+
+            .bottom-nav {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                text-align: center;
+                padding: 40px 30px 20px;
+                display: flex;
+                justify-content: center;
+                gap: 30px;
+            }
+
+            .bottom-nav a {
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav" id="mainNav">
+        <div class="nav-container">
+            <a href="index.html" class="artist-name">Gage Alexander Bearson</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="works.html" class="nav-link">Work</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="about.html" class="nav-link active">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- About Container -->
+    <main class="about-container">
+        <!-- Large Portrait Image -->
+        <div class="about-image">
+            <img src="images/profile.jpg" alt="Gage Alexander Bearson - Visual Artist">
+        </div>
+        
+        <!-- Content -->
+        <div class="about-content">
+            <h1 class="about-title">About Me</h1>
+            <p class="about-text">
+                I am a visual artist exploring the <strong>boundaries</strong> between the tangible and the conceptual. 
+                My work is born from deep observation of the world around us and the constant search 
+                for new forms of expression.
+            </p>
+            <p class="about-text">
+                Each piece is an investigation, a dialogue between materials, ideas and emotions. 
+                My artistic practice embraces multiple mediums, from traditional painting to 
+                contemporary installations.
+            </p>
+            <p class="about-text">
+                Art is my language to communicate the invisible, to make the intangible tangible.
+                Through photography, I capture fleeting moments that reveal deeper truths about our 
+                human experience and connection to place.
+            </p>
+            <p class="about-text">
+                Based between <strong>New York</strong> and <strong>Buenos Aires</strong>, I draw inspiration 
+                from the energy and stories of these vibrant cities, always seeking to bridge cultures 
+                through visual narrative.
+            </p>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="works.html">View My Work</a>
+        <a href="contact.html">Get in Touch</a>
+        <a href="gallery.html">Browse Gallery</a>
+    </div>
+
+    <script>
+        // Mobile menu functionality
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.getElementById('mainNav');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            mainNav.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                mainNav.classList.remove('active');
+            });
+        });
+
+        // Smooth reveal animation on load
+        window.addEventListener('load', () => {
+            document.querySelector('.about-image').style.transform = 'translateX(0)';
+            document.querySelector('.about-content').style.transform = 'translateX(0)';
+        });
+    </script>
+</body>
+</html>

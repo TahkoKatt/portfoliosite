@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Works - Gage Alexander Bearson</title>
+    <style>
+        /* Import Public Sans */
+        @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #FB6C1E;
+            --primary-dark: #E55A0D;
+            --primary-light: #FC8344;
+            --accent: #1E90FB;
+            --accent-warm: #FFE8D6;
+            --black: #000000;
+            --grey-dark: #1A1A1A;
+            --grey-mid: #A3A3A3;
+            --grey-light: #F5F5F5;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Public Sans', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+            line-height: 1.6;
+            cursor: url('cursor.png') 16 16, auto;
+        }
+
+        /* Custom Cursor Styles */
+        a, button, .work-item, .nav-link, .contact-link, .logo {
+            cursor: url('cursor.png') 16 16, pointer;
+        }
+
+        /* Navigation - positioned on top left */
+        .main-nav {
+            position: fixed;
+            top: 40px;
+            left: 50px;
+            z-index: 1000;
+            background: transparent;
+        }
+
+        .nav-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .artist-name {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Public Sans', sans-serif;
+            margin-bottom: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: opacity 0.3s ease;
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        /* Works Grid - Full Screen Layout */
+        .works-container {
+            position: relative;
+            min-height: 100vh;
+            padding: 120px 80px 80px 300px; /* Leave space for left nav */
+        }
+
+        .works-title {
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            z-index: 1000;
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+        }
+
+        .work-item {
+            position: relative;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .work-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .work-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .work-item:hover .work-image {
+            transform: scale(1.05);
+        }
+
+        .work-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 30px 20px 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .work-item:hover .work-overlay {
+            transform: translateY(0);
+        }
+
+        .work-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 5px;
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .work-medium {
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 400;
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--white);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            overflow: hidden;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+
+        .modal-info {
+            margin-top: 20px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            min-width: 300px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 10px;
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .modal-medium {
+            color: var(--primary);
+            font-size: 1rem;
+            font-weight: 400;
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .modal-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 2001;
+            background: rgba(0, 0, 0, 0.8);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--primary);
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            color: var(--black);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .works-container {
+                padding: 120px 50px 80px 200px;
+            }
+            
+            .works-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: left 0.3s ease;
+                padding: 0;
+            }
+
+            .main-nav.active {
+                left: 0;
+            }
+
+            .nav-container {
+                align-items: center;
+                gap: 30px;
+            }
+
+            .nav-menu {
+                align-items: center;
+                gap: 30px;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
+            .works-container {
+                padding: 100px 30px 80px 30px;
+            }
+
+            .works-title {
+                position: relative;
+                top: auto;
+                right: auto;
+                text-align: center;
+                margin-bottom: 40px;
+            }
+
+            .works-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav" id="mainNav">
+        <div class="nav-container">
+            <a href="index.html" class="artist-name">Gage Alexander Bearson</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="works.html" class="nav-link active">Work</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Works Title -->
+    <div class="works-title">Works</div>
+
+    <!-- Works Container -->
+    <main class="works-container">
+        <div class="works-grid" id="worksGrid">
+            <!-- Works will be loaded dynamically -->
+        </div>
+    </main>
+
+    <!-- Fullscreen Modal -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <img class="modal-image" id="modalImage" alt="">
+            <div class="modal-info">
+                <h3 class="modal-title" id="modalTitle"></h3>
+                <p class="modal-medium" id="modalMedium"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu functionality
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.getElementById('mainNav');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            mainNav.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                mainNav.classList.remove('active');
+            });
+        });
+
+        // Load and display works
+        async function loadWorks() {
+            try {
+                const response = await fetch('/api/projects');
+                const projects = await response.json();
+                
+                const worksGrid = document.getElementById('worksGrid');
+                
+                // Sort projects by order
+                const sortedProjects = Object.entries(projects)
+                    .sort(([,a], [,b]) => (a.order || 0) - (b.order || 0));
+                
+                worksGrid.innerHTML = sortedProjects.map(([id, project]) => {
+                    const mainImage = project.images && project.images[0] ? project.images[0] : 'images/placeholder.jpg';
+                    
+                    return `
+                        <div class="work-item" onclick="openModal('${mainImage}', '${project.title}', '${project.medium}')">
+                            <img src="${mainImage}" alt="${project.title}" class="work-image">
+                            <div class="work-overlay">
+                                <h3 class="work-title">${project.title}</h3>
+                                <p class="work-medium">${project.medium}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+            } catch (error) {
+                console.error('Failed to load works:', error);
+                // Fallback to static content if API fails
+                loadStaticWorks();
+            }
+        }
+
+        // Fallback static works
+        function loadStaticWorks() {
+            const staticWorks = [
+                { title: "Ibiza", medium: "Photography", image: "images/ibiza.jpg" },
+                { title: "Newport Flight Boats", medium: "Photography", image: "images/newport_flight_boats.jpg" },
+                { title: "La Romana", medium: "Photography", image: "images/la_romana_1.jpg" },
+                { title: "Ellington Bridge", medium: "Photography", image: "images/ellington_bridge.jpg" },
+                { title: "Formentera Net", medium: "Photography", image: "images/formentera_net.jpg" },
+                { title: "Mar del Plata", medium: "Photography", image: "images/mar_del_plata_1.jpg" },
+                { title: "NY Laundromat", medium: "Photography", image: "images/ny_laundromat.jpg" },
+                { title: "Palermo Soho", medium: "Photography", image: "images/palermo_soho_1.jpg" },
+                { title: "Recoleta Cat", medium: "Photography", image: "images/recoleta_cat.jpg" },
+                { title: "Sarasota Tree", medium: "Photography", image: "images/sarasota_tree.jpg" }
+            ];
+
+            const worksGrid = document.getElementById('worksGrid');
+            worksGrid.innerHTML = staticWorks.map(work => `
+                <div class="work-item" onclick="openModal('${work.image}', '${work.title}', '${work.medium}')">
+                    <img src="${work.image}" alt="${work.title}" class="work-image">
+                    <div class="work-overlay">
+                        <h3 class="work-title">${work.title}</h3>
+                        <p class="work-medium">${work.medium}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Modal functionality
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMedium = document.getElementById('modalMedium');
+        const modalClose = document.querySelector('.modal-close');
+
+        function openModal(imageSrc, title, medium) {
+            modalImage.src = imageSrc;
+            modalTitle.textContent = title;
+            modalMedium.textContent = medium;
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('show')) {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        loadWorks();
+    </script>
+</body>
+</html>

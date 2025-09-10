@@ -5,22 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gage Alexander Bearson - Portfolio</title>
     <style>
-        /* Custom Font Declaration */
-        @font-face {
-            font-family: 'Outahere';
-            src: url('fonts/Outahere Regular.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'Aifont';
-            src: url('fonts/Aifont-v2-Trial-261.otf') format('opentype');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
+        /* Import Public Sans */
+        @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&display=swap');
 
         * {
             margin: 0;
@@ -44,7 +30,7 @@
         body {
             background: var(--white);
             color: var(--black);
-            font-family: 'Outahere', sans-serif;
+            font-family: 'Public Sans', sans-serif;
             font-weight: 400;
             overflow-x: hidden;
             line-height: 1.6;
@@ -60,16 +46,6 @@
             cursor: url('cursor.png') 16 16, pointer;
         }
 
-        /* Navegación */
-        .main-nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 25px 50px;
-            z-index: 1000;
-            background: var(--white);
-            border-bottom: 2px solid var(--grey-light);
-        }
 
         .nav-container {
             display: flex;
@@ -79,86 +55,140 @@
             margin: 0 auto;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--black);
+        .artist-name {
+            font-size: 1rem;
+            font-weight: 400;
+            color: black;
             text-decoration: none;
-            letter-spacing: -5px;
-            font-family: 'Aifont', 'Outahere', sans-serif;
-        }
-
-        .logo-icon {
-            width: 65px;
-            height: 65px;
-            background-image: url('logo.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Public Sans', sans-serif;
         }
 
         .nav-menu {
             display: flex;
-            gap: 50px;
+            gap: 40px;
             list-style: none;
         }
 
         .nav-link {
-            color: var(--primary);
+            color: black;
             text-decoration: none;
-            font-size: 1.8rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            font-family: 'Aifont', 'Outahere', sans-serif;
-            letter-spacing: -5px;
+            font-size: 0.9rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: opacity 0.3s ease;
+            font-family: 'Public Sans', sans-serif;
         }
 
         .nav-link:hover {
-            color: var(--black);
+            opacity: 0.7;
         }
 
-        .nav-link.active {
-            color: var(--black);
-            font-weight: 600;
-        }
-
-        /* Hero Section */
-        .hero {
+        /* Main Layout */
+        .main-container {
+            position: relative;
+            width: 100%;
             height: 100vh;
+            background: #000;
+            overflow: hidden;
+        }
+
+        /* Slideshow Styles */
+        .slideshow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center; /* You can change this to: top, bottom, left, right, or specific coordinates like '20% 30%' */
+        }
+
+        /* Alternative positioning options - uncomment to use:
+        .hero-slide:nth-child(1) img { object-position: top center; }
+        .hero-slide:nth-child(2) img { object-position: center left; }
+        .hero-slide:nth-child(3) img { object-position: bottom center; }
+        */
+
+        /* Slide indicators (optional) */
+        .slide-dots {
+            position: fixed;
+            bottom: 100px;
+            right: 50px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--white);
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
         }
 
-        .hero-content {
-            text-align: center;
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: background 0.3s ease;
         }
 
-        .hero-title {
-            font-size: 7rem;
-            font-weight: 800;
-            line-height: 0.9;
-            margin-bottom: 30px;
-            color: var(--black);
+        .dot.active {
+            background: black;
+        }
+
+        /* Navigation */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 40px 50px;
+            z-index: 1000;
+            background: transparent;
+            border: none;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 40px;
+            left: 50px;
+            z-index: 1000;
+        }
+
+        .bottom-nav a {
+            display: block;
+            color: black;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 400;
             text-transform: uppercase;
-            font-family: 'Outahere', sans-serif;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            transition: opacity 0.3s ease;
+            font-family: 'Public Sans', sans-serif;
         }
 
-        .hero-title span {
-            color: var(--white);
-            text-shadow: 3px 3px 0 var(--black);
-        }
-
-        .hero-subtitle {
-            font-size: 1.3rem;
-            color: var(--black);
-            font-weight: 500;
-            letter-spacing: 3px;
-            font-family: 'Outahere', sans-serif;
+        .bottom-nav a:hover {
+            opacity: 0.7;
         }
 
         /* Grid de Obras */
@@ -176,7 +206,7 @@
             margin-bottom: 60px;
             text-align: center;
             text-transform: uppercase;
-            font-family: 'Outahere', sans-serif;
+            font-family: 'Public Sans', sans-serif;
         }
 
         .works-grid {
@@ -233,14 +263,14 @@
             font-weight: 600;
             color: var(--white);
             margin-bottom: 5px;
-            font-family: 'Outahere', sans-serif;
+            font-family: 'Public Sans', sans-serif;
         }
 
         .work-medium {
             color: var(--primary);
             font-size: 0.9rem;
             font-weight: 400;
-            font-family: 'Outahere', sans-serif;
+            font-family: 'Public Sans', sans-serif;
         }
 
         /* About Section */
@@ -281,7 +311,7 @@
             color: var(--primary);
             margin-bottom: 30px;
             text-transform: uppercase;
-            font-family: 'Outahere', sans-serif;
+            font-family: 'Public Sans', sans-serif;
         }
 
         .about-text {
@@ -290,7 +320,7 @@
             font-weight: 400;
             margin-bottom: 25px;
             color: var(--white);
-            font-family: 'Outahere', sans-serif;
+            font-family: 'Public Sans', sans-serif;
         }
 
         .about-text strong {
@@ -312,7 +342,7 @@
             color: var(--black);
             margin-bottom: 40px;
             text-transform: uppercase;
-            font-family: 'Outahere', sans-serif;
+            font-family: 'Public Sans', sans-serif;
         }
 
         .contact-links {
@@ -330,7 +360,7 @@
             padding: 10px 20px;
             border: 3px solid var(--grey-light);
             transition: all 0.3s ease;
-            font-family: 'Outahere', sans-serif;
+            font-family: 'Public Sans', sans-serif;
         }
 
         .contact-link:hover {
@@ -348,7 +378,7 @@
             background: var(--white);
             font-weight: 500;
             border-top: 2px solid var(--grey-light);
-            font-family: 'Outahere', sans-serif;
+            font-family: 'Public Sans', sans-serif;
         }
 
         /* Menú Hamburguesa para Móvil */
@@ -418,14 +448,14 @@
             font-weight: 600;
             color: var(--black);
             margin-bottom: 10px;
-            font-family: 'Outahere', sans-serif;
+            font-family: 'Public Sans', sans-serif;
         }
 
         .modal-medium {
             color: var(--black);
             font-size: 1rem;
             font-weight: 400;
-            font-family: 'Outahere', sans-serif;
+            font-family: 'Public Sans', sans-serif;
         }
 
         .modal-close {
@@ -460,7 +490,7 @@
             }
         }
 
-        @media (max-width: 768px) {
+        /* Mobile Menu */\n        .menu-toggle {\n            display: none;\n            flex-direction: column;\n            gap: 5px;\n            background: none;\n            border: none;\n            cursor: pointer;\n            padding: 5px;\n        }\n\n        .menu-toggle span {\n            width: 25px;\n            height: 2px;\n            background: white;\n        }\n\n        @media (max-width: 768px) {\n            .nav-menu {\n                position: fixed;\n                top: 0;\n                right: -100%;\n                width: 100%;\n                height: 100vh;\n                background: rgba(0, 0, 0, 0.95);\n                flex-direction: column;\n                justify-content: center;\n                align-items: center;\n                transition: right 0.3s ease;\n                gap: 30px;\n            }\n\n            .nav-menu.active {\n                right: 0;\n            }\n\n            .menu-toggle {\n                display: flex;\n                z-index: 1001;\n            }\n\n            .bottom-nav {\n                bottom: 20px;\n                left: 20px;\n            }\n\n            .main-nav {\n                padding: 20px 30px;\n            }\n\n        @media (max-width: 768px) {
             .main-nav {
                 padding: 20px 30px;
             }
@@ -539,39 +569,64 @@
     </style>
 </head>
 <body>
-    <!-- Navegación -->
-    <nav class="main-nav">
-        <div class="nav-container">
-            <a href="#home" class="logo">
-                <div class="logo-icon"></div>
-                GageAlexanderBearson
-            </a>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#works" class="nav-link">Portfolio</a></li>
-                <li><a href="#about" class="nav-link">About me</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-            <button class="menu-toggle" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+    <div class="main-container">
+        <!-- Hero Slideshow -->
+        <div class="slideshow-container">
+            <div class="hero-slide active">
+                <img src="/uploads/images/1757518586632-44946471.jpg" alt="Featured Work 1">
+            </div>
+            <div class="hero-slide">
+                <img src="images/ibiza.jpg" alt="Featured Work 2">
+            </div>
+            <div class="hero-slide">
+                <img src="images/ellington_bridge.jpg" alt="Featured Work 3">
+            </div>
+            <div class="hero-slide">
+                <img src="images/formentera_net.jpg" alt="Featured Work 4">
+            </div>
+            <div class="hero-slide">
+                <img src="images/mar_del_plata_1.jpg" alt="Featured Work 5">
+            </div>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                ARTISTA<br>
-                <span>VISUAL</span>
-            </h1>
+        
+        <!-- Slide indicators -->
+        <div class="slide-dots">
+            <div class="dot active" data-slide="0"></div>
+            <div class="dot" data-slide="1"></div>
+            <div class="dot" data-slide="2"></div>
+            <div class="dot" data-slide="3"></div>
+            <div class="dot" data-slide="4"></div>
         </div>
-    </section>
+        
+        <!-- Top Navigation -->
+        <nav class="main-nav">
+            <div class="nav-container">
+                <a href="#home" class="artist-name">Gage Alexander Bearson</a>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="works.html" class="nav-link">Work</a></li>
+                    <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
 
-    <!-- Obras Section -->
-    <section class="works-section" id="works">
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <a href="works.html">View All Work</a>
+            <a href="about.html">About</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Get in Touch</a>
+        </div>
+    </div>
+
+    <!-- Works Section (hidden initially) -->
+    <section class="works-section" id="works" style="display: none;">
         <h2 class="section-title">Works</h2>
         
         <div class="works-grid">
@@ -723,9 +778,35 @@
         </div>
     </section>
 
+    <!-- Gallery Section -->
+    <section class="gallery-section" id="gallery" style="display: none;">
+        <div style="padding: 80px 50px; max-width: 1400px; margin: 0 auto; background: var(--white);">
+            <h2 style="font-size: 4rem; font-weight: 800; color: var(--black); margin-bottom: 60px; text-align: center; text-transform: uppercase; font-family: 'Public Sans', sans-serif;">Gallery</h2>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
+                <div style="aspect-ratio: 1; overflow: hidden; border: 2px solid var(--black);"><img src="images/ibiza.jpg" alt="Gallery Image" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                <div style="aspect-ratio: 1; overflow: hidden; border: 2px solid var(--black);"><img src="images/ellington_bridge.jpg" alt="Gallery Image" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                <div style="aspect-ratio: 1; overflow: hidden; border: 2px solid var(--black);"><img src="images/formentera_net.jpg" alt="Gallery Image" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                <div style="aspect-ratio: 1; overflow: hidden; border: 2px solid var(--black);"><img src="images/mar_del_plata_1.jpg" alt="Gallery Image" style="width: 100%; height: 100%; object-fit: cover;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Press Section -->
+    <section class="press-section" id="press" style="display: none;">
+        <div style="padding: 80px 50px; max-width: 1200px; margin: 0 auto; background: var(--white);">
+            <h2 style="font-size: 4rem; font-weight: 800; color: var(--black); margin-bottom: 60px; text-align: center; text-transform: uppercase; font-family: 'Public Sans', sans-serif;">Press</h2>
+            <div style="display: grid; gap: 40px;">
+                <div style="border-bottom: 1px solid #ccc; padding-bottom: 30px;">
+                    <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 10px; font-family: 'Public Sans', sans-serif;">Featured in Photography Weekly</h3>
+                    <p style="color: #666; margin-bottom: 15px; font-family: 'Public Sans', sans-serif;">March 2024</p>
+                    <p style="line-height: 1.6; font-family: 'Public Sans', sans-serif;">"Gage Alexander Bearson's work captures the essence of contemporary visual storytelling..."</p>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- Contact Section -->
     <section class="contact-section" id="contact">
-        <h2 class="contact-title">CONTACTO</h2>
+        <h2 class="contact-title">Contacto</h2>
         <div class="contact-links">
             <a href="mailto:tu@email.com" class="contact-link">EMAIL</a>
             <a href="https://instagram.com/tuusuario" class="contact-link" target="_blank">INSTAGRAM</a>
@@ -751,6 +832,33 @@
     </footer>
 
     <script>
+        // Login overlay functionality
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainNav = document.getElementById('mainNav');
+        const hero = document.querySelector('.hero');
+        const body = document.body;
+
+        // Prevent scrolling initially
+        body.style.overflow = 'hidden';
+
+        // Login overlay click handler
+        loginOverlay.addEventListener('click', function() {
+            // Start fade out transition
+            loginOverlay.classList.add('fade-out');
+            
+            // Show navigation after delay
+            setTimeout(() => {
+                mainNav.classList.add('show');
+                hero.classList.add('show');
+                body.style.overflow = 'auto';
+            }, 500);
+            
+            // Remove overlay from DOM after transition
+            setTimeout(() => {
+                loginOverlay.remove();
+            }, 2000);
+        });
+
         // Menú móvil
         const menuToggle = document.getElementById('menuToggle');
         const navMenu = document.getElementById('navMenu');
@@ -842,3 +950,38 @@
     </script>
 </body>
 </html>
+<script>
+// Slideshow functionality
+let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+const dots = document.querySelectorAll('.dot');
+const totalSlides = slides.length;
+
+function showSlide(index) {
+    // Hide all slides
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+    
+    // Show current slide
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    showSlide(currentSlide);
+}
+
+function goToSlide(index) {
+    currentSlide = index;
+    showSlide(currentSlide);
+}
+
+// Auto-advance slideshow every 4 seconds
+setInterval(nextSlide, 4000);
+
+// Click handlers for dots
+dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => goToSlide(index));
+});
+</script>

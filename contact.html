@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Gage Alexander Bearson</title>
+    <style>
+        /* Import Public Sans */
+        @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #FB6C1E;
+            --primary-dark: #E55A0D;
+            --primary-light: #FC8344;
+            --accent: #1E90FB;
+            --accent-warm: #FFE8D6;
+            --black: #000000;
+            --grey-dark: #1A1A1A;
+            --grey-mid: #A3A3A3;
+            --grey-light: #F5F5F5;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--white);
+            color: var(--black);
+            font-family: 'Public Sans', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+            line-height: 1.6;
+            cursor: url('cursor.png') 16 16, auto;
+        }
+
+        /* Custom Cursor Styles */
+        a, button, .nav-link, .contact-link {
+            cursor: url('cursor.png') 16 16, pointer;
+        }
+
+        /* Navigation - positioned on top left */
+        .main-nav {
+            position: fixed;
+            top: 40px;
+            left: 50px;
+            z-index: 1000;
+            background: transparent;
+        }
+
+        .nav-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .artist-name {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--black);
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Public Sans', sans-serif;
+            margin-bottom: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--black);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: opacity 0.3s ease;
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .nav-link:hover {
+            opacity: 0.7;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        /* Contact Container - Full Screen Layout */
+        .contact-container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 600px 1fr;
+            align-items: center;
+        }
+
+        /* Contact Content - positioned on left */
+        .contact-content {
+            padding: 80px 80px 80px 300px;
+            background: var(--white);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-title {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            font-family: 'Public Sans', sans-serif;
+            line-height: 1;
+        }
+
+        .contact-subtitle {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            font-weight: 400;
+            margin-bottom: 50px;
+            color: var(--grey-dark);
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .contact-link {
+            color: var(--black);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 15px 0;
+            border-bottom: 2px solid var(--grey-light);
+            transition: all 0.3s ease;
+            font-family: 'Public Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .contact-link:hover {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            transform: translateX(10px);
+        }
+
+        .contact-link::after {
+            content: "→";
+            position: absolute;
+            right: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-link:hover::after {
+            opacity: 1;
+        }
+
+        /* Large Background Image */
+        .contact-image {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .contact-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: grayscale(30%) contrast(1.1);
+        }
+
+        /* Overlay on image */
+        .contact-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to left, transparent 0%, rgba(255,255,255,0.3) 100%);
+        }
+
+        /* Contact info positioned on bottom right of image */
+        .contact-info {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            color: var(--black);
+            text-align: right;
+            background: rgba(255,255,255,0.9);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-info h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-info p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--black);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .contact-container {
+                grid-template-columns: 500px 1fr;
+            }
+            
+            .contact-content {
+                padding: 60px 60px 60px 250px;
+            }
+            
+            .contact-title {
+                font-size: 3rem;
+            }
+            
+            .contact-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-nav {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.95);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: left 0.3s ease;
+                padding: 0;
+            }
+
+            .main-nav.active {
+                left: 0;
+            }
+
+            .nav-container {
+                align-items: center;
+                gap: 30px;
+            }
+
+            .nav-menu {
+                align-items: center;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .contact-content {
+                height: auto;
+                padding: 120px 30px 60px;
+                order: 1;
+            }
+
+            .contact-image {
+                height: 50vh;
+                order: 2;
+            }
+
+            .contact-title {
+                font-size: 2.5rem;
+                margin-bottom: 30px;
+            }
+
+            .contact-subtitle {
+                font-size: 1rem;
+                margin-bottom: 40px;
+            }
+
+            .contact-links {
+                gap: 20px;
+            }
+
+            .contact-link {
+                font-size: 1rem;
+                padding: 12px 0;
+            }
+
+            .contact-info {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                margin: 30px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav" id="mainNav">
+        <div class="nav-container">
+            <a href="index.html" class="artist-name">Gage Alexander Bearson</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="works.html" class="nav-link">Work</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link active">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Contact Container -->
+    <main class="contact-container">
+        <!-- Contact Content -->
+        <div class="contact-content">
+            <h1 class="contact-title">Let's Connect</h1>
+            <p class="contact-subtitle">
+                Interested in working together? Have a project in mind? 
+                I'd love to hear from you and discuss how we can bring your vision to life.
+            </p>
+            
+            <div class="contact-links">
+                <a href="mailto:gage@example.com" class="contact-link">Send Email</a>
+                <a href="https://instagram.com/gagealexanderbearson" class="contact-link" target="_blank">Instagram</a>
+                <a href="tel:+1234567890" class="contact-link">Call Me</a>
+                <a href="https://linkedin.com/in/gagealexanderbearson" class="contact-link" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+        
+        <!-- Large Background Image -->
+        <div class="contact-image">
+            <img src="images/ellington_bridge.jpg" alt="Contact - Gage Alexander Bearson">
+            <div class="contact-overlay"></div>
+            
+            <!-- Contact Info Overlay -->
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                <p>New York, NY</p>
+                <p>Buenos Aires, Argentina</p>
+                <p>Available for commissions</p>
+                <p>& collaborations worldwide</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile menu functionality
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.getElementById('mainNav');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            mainNav.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                mainNav.classList.remove('active');
+            });
+        });
+
+        // Email protection (basic)
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
+            emailLinks.forEach(link => {
+                const email = 'gage' + '@' + 'example.com'; // Replace with actual email
+                link.href = `mailto:${email}`;
+            });
+        });
+
+        // Smooth reveal animation on load
+        window.addEventListener('load', () => {
+            document.querySelector('.contact-content').style.transform = 'translateX(0)';
+            document.querySelector('.contact-image').style.transform = 'translateX(0)';
+        });
+    </script>
+</body>
+</html>

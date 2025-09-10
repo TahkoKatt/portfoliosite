@@ -254,6 +254,43 @@ app.post('/api/settings', requireAuth, (req, res) => {
     }
 });
 
+// Hero image update route
+app.post('/api/hero-image', requireAuth, (req, res) => {
+    const { heroImage } = req.body;
+    
+    if (heroImage) {
+        // Update the hero image in index.html
+        let indexContent = fs.readFileSync('index.html', 'utf8');
+        
+        // Replace the login overlay background image
+        const loginOverlayRegex = /background-image: url\(['"]*([^'"]*)['"]*\)/;
+        if (loginOverlayRegex.test(indexContent)) {
+            indexContent = indexContent.replace(
+                loginOverlayRegex,
+                `background-image: url('${heroImage}')`
+            );
+        } else {
+            // If pattern not found, try to add it to the .login-overlay class
+            const loginOverlayClassRegex = /(\.login-overlay\s*\{[^}]*)/;
+            if (loginOverlayClassRegex.test(indexContent)) {
+                indexContent = indexContent.replace(
+                    loginOverlayClassRegex,
+                    `$1background-image: url('${heroImage}');\n            `
+                );
+            }
+        }
+        
+        // Write the updated content back to index.html
+        if (fs.writeFileSync('index.html', indexContent)) {
+            res.json({ success: true, message: 'Hero image updated successfully' });
+        } else {
+            res.status(500).json({ error: 'Failed to update hero image' });
+        }
+    } else {
+        res.status(400).json({ error: 'No hero image URL provided' });
+    }
+});
+
 // File upload routes
 app.post('/api/upload', requireAuth, upload.array('files', 20), async (req, res) => {
     try {

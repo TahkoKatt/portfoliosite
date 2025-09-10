@@ -5,14 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio CMS - Admin</title>
     <style>
-        /* Custom Font */
-        @font-face {
-            font-family: 'Outahere';
-            src: url('fonts/Outahere Regular.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
+        /* Import Public Sans */
+        @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&display=swap');
 
         :root {
             --red: #dc2626;
@@ -31,7 +25,7 @@
         }
 
         body {
-            font-family: 'Outahere', system-ui, sans-serif;
+            font-family: 'Public Sans', system-ui, sans-serif;
             background: var(--grey);
             color: var(--black);
             cursor: url('cursor.png') 16 16, auto;
@@ -486,6 +480,75 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Hero Image Manager Styles */
+        .hero-image-manager {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .hero-preview {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            border: 3px solid var(--black);
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .hero-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--white);
+            padding: 20px;
+        }
+
+        .hero-text h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-text p {
+            font-size: 1rem;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-upload-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .upload-hint {
+            color: var(--dark-grey);
+            font-size: 0.9rem;
+            margin: 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero-image-manager {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-preview {
+                height: 200px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -563,6 +626,32 @@
                         <input type="email" id="contactEmail" placeholder="e.g., tu@email.com">
                     </div>
                     <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+                </div>
+            </section>
+
+            <!-- Login Hero Image Management -->
+            <section>
+                <h2 class="section-title">Login Hero Image</h2>
+                <div class="hero-image-manager">
+                    <div class="current-hero-display">
+                        <div class="hero-preview" id="heroPreview">
+                            <img src="images/login-hero.jpg" alt="Current login hero image" id="heroImage">
+                            <div class="hero-overlay">
+                                <div class="hero-text">
+                                    <h3>Gage Alexander Bearson</h3>
+                                    <p>Visual Artist & Photographer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-upload-controls">
+                        <input type="file" id="heroFileInput" accept="image/*" style="display: none;" onchange="uploadHeroImage(this.files[0])">
+                        <button class="btn btn-primary" onclick="document.getElementById('heroFileInput').click();">
+                            Upload New Hero Image
+                        </button>
+                        <p class="upload-hint">Recommended: High-resolution image (1920x1080 or larger)</p>
+                        <div id="heroUploadStatus" style="margin-top: 10px;"></div>
+                    </div>
                 </div>
             </section>
 
@@ -943,6 +1032,68 @@
                 }
             } catch (error) {
                 showStatus('Upload failed: ' + error.message, 'error');
+            }
+        }
+
+        // Hero image upload function
+        async function uploadHeroImage(file) {
+            if (!file) return;
+            
+            const statusDiv = document.getElementById('heroUploadStatus');
+            const heroImg = document.getElementById('heroImage');
+            
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                statusDiv.innerHTML = '<span style="color: var(--red);">Please select a valid image file</span>';
+                return;
+            }
+            
+            // Show uploading status
+            statusDiv.innerHTML = '<div class="spinner"></div> Uploading hero image...';
+            
+            const formData = new FormData();
+            formData.append('files', file);
+            formData.append('heroImage', 'true'); // Special flag for hero images
+            
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success && result.files.length > 0) {
+                    const heroImageUrl = result.files[0].url;
+                    
+                    // Update the preview
+                    heroImg.src = heroImageUrl + '?t=' + Date.now(); // Cache bust
+                    
+                    // Update the main site's background image
+                    await updateHeroImageInSite(heroImageUrl);
+                    
+                    statusDiv.innerHTML = '<span style="color: var(--green);">✓ Hero image updated successfully!</span>';
+                } else {
+                    throw new Error(result.error || 'Upload failed');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<span style="color: var(--red);">Upload failed: ${error.message}</span>`;
+            }
+        }
+
+        // Update hero image in the main site
+        async function updateHeroImageInSite(imageUrl) {
+            try {
+                // Save to site settings or update directly
+                await apiCall('/api/hero-image', {
+                    method: 'POST',
+                    body: JSON.stringify({ heroImage: imageUrl })
+                });
+                
+                // Regenerate static files to update the main index.html
+                await apiCall('/api/regenerate', { method: 'POST' });
+            } catch (error) {
+                console.error('Failed to update hero image in site:', error);
             }
         }
 
