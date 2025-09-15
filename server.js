@@ -19,22 +19,22 @@ try {
 }
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(express.static('.'));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(session({
-    secret: 'portfolio-cms-secret-key-2024',
+    secret: process.env.SESSION_SECRET || 'portfolio-cms-secret-key-2024',
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 hours
 }));
 
 // Default admin credentials (change these!)
-const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD = '$2a$10$7aWZ7hfsicl30ut2ksJVMeJzc2tBzb/JWe7Bn.JnK6S30p8by6IOC'; // 'portfolio2024'
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD_HASH || '$2a$10$7aWZ7hfsicl30ut2ksJVMeJzc2tBzb/JWe7Bn.JnK6S30p8by6IOC'; // 'portfolio2024'
 
 // Ensure directories exist
 const ensureDirectories = () => {
