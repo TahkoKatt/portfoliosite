@@ -22,7 +22,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(express.static('.'));
+app.use(express.static(path.join(__dirname)));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(session({
@@ -164,6 +164,11 @@ ensureDirectories();
 let projects = loadProjects();
 
 // Routes
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
+});
 
 // Authentication routes
 app.post('/api/login', async (req, res) => {
@@ -512,8 +517,8 @@ ${projectsGridHtml}
     }
 }
 
-app.listen(PORT, () => {
-    console.log(`🚀 Portfolio CMS running at http://localhost:${PORT}`);
-    console.log(`📊 Admin interface: http://localhost:${PORT}/admin`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Portfolio CMS running on port ${PORT}`);
+    console.log(`📊 Admin interface available at /admin`);
     console.log(`🔑 Default login: admin / portfolio2024`);
 });
